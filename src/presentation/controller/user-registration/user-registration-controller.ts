@@ -7,7 +7,7 @@ export class UserRegistrationController implements Controller {
   constructor(private readonly addUser: AddUser) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const requiredFields = ["name", "password"];
+    const requiredFields = ["name", "email"];
 
     for (const field of requiredFields) {
       if (!httpRequest.body[field]) {
@@ -15,8 +15,8 @@ export class UserRegistrationController implements Controller {
       }
     }
 
-    const { name, password } = httpRequest.body;
-    this.addUser.add({ name, password });
+    const { name, email } = httpRequest.body;
+    this.addUser.add({ name, email });
 
     return success(httpRequest);
   }

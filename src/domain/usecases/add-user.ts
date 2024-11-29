@@ -2,7 +2,7 @@ import { UserModel } from "../models/user";
 
 export interface AddUserModel {
   name: string;
-  password: string;
+  email: string;
 }
 
 export interface AddUser {

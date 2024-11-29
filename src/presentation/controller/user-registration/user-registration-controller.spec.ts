@@ -10,7 +10,7 @@ const makeAddUser = (): AddUser => {
       const FakeUser = {
         id: "valid_id",
         name: "valid_name",
-        password: "valid_password",
+        email: "valid_email",
       };
 
       return new Promise((resolve) => resolve(FakeUser));
@@ -36,7 +36,7 @@ describe("Signup Controller", () => {
     const httpRequest = {
       body: {
         name: "any_name",
-        password: "any_password",
+        email: "any_email",
       },
     };
 
@@ -48,7 +48,7 @@ describe("Signup Controller", () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
-        password: "any_password",
+        email: "any_email",
       },
     };
 
@@ -56,7 +56,7 @@ describe("Signup Controller", () => {
     expect(httpResponse).toEqual(badRequest(new MissingParamError("name")));
   });
 
-  test("Should return 400 if no password is provide", async () => {
+  test("Should return 400 if no email is provide", async () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
@@ -65,7 +65,7 @@ describe("Signup Controller", () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse).toEqual(badRequest(new MissingParamError("password")));
+    expect(httpResponse).toEqual(badRequest(new MissingParamError("email")));
   });
 
   test("Should call AddUser with correct values", async () => {
@@ -75,14 +75,14 @@ describe("Signup Controller", () => {
     const httpRequest = {
       body: {
         name: "any_name",
-        password: "any_password",
+        email: "any_email",
       },
     };
 
     await sut.handle(httpRequest);
     expect(addSpy).toHaveBeenCalledWith({
       name: "any_name",
-      password: "any_password",
+      email: "any_email",
     });
   });
 });
