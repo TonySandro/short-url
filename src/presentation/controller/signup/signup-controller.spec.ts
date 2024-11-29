@@ -14,7 +14,7 @@ describe("Signup Controller", () => {
       },
     };
 
-    const httpResponse = await sut.handle(httpRequest.body);
-    expect(httpResponse).toEqual({ statusCode: 200 });
+    const httpResponse = await sut.handle(httpRequest);
+    expect(httpResponse).toEqual({ statusCode: 200, body: {} });
   });
 });
