@@ -1,3 +1,4 @@
+import { success } from "../../helpers/http/http-helper";
 import { SignupController } from "./signup-controller";
 
 const makeSut = () => {
@@ -15,6 +16,6 @@ describe("Signup Controller", () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse).toEqual({ statusCode: 200, body: {} });
+    expect(httpResponse).toEqual(success(httpRequest));
   });
 });
