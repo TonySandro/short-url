@@ -1,9 +1,9 @@
 import { MissingParamError } from "../../errors/missing-param-error";
 import { badRequest, success } from "../../helpers/http/http-helper";
-import { SignupController } from "./signup-controller";
+import { UserRegistrationController } from "./user-registration-controller";
 
 const makeSut = () => {
-  return new SignupController();
+  return new UserRegistrationController();
 };
 
 describe("Signup Controller", () => {
