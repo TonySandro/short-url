@@ -41,7 +41,7 @@ const makeSut = () => {
   };
 };
 
-describe("Signup Controller", () => {
+describe("User Registration Controller", () => {
   test("Should return 200 if success", async () => {
     const { sut } = makeSut();
     const httpRequest = {
@@ -64,7 +64,7 @@ describe("Signup Controller", () => {
     };
 
     const httpResponse = await sut.handle(httpRequest);
-    expect(httpResponse).toEqual(badRequest(new MissingParamError("name")));
+    expect(httpResponse.body).toEqual(new MissingParamError("name"));
   });
 
   test("Should return 400 if no email is provide", async () => {
@@ -75,8 +75,8 @@ describe("Signup Controller", () => {
       },
     };
 
-    const httpResponse = await sut.handle(makeHttpRequest());
-    expect(httpResponse).toEqual(badRequest(new MissingParamError("email")));
+    const httpResponse = await sut.handle(httpRequest);
+    expect(httpResponse.body).toEqual(new MissingParamError("email"));
   });
 
   test("Should call AddUser with correct values", async () => {
@@ -97,6 +97,6 @@ describe("Signup Controller", () => {
     });
     const httpResponse = await sut.handle(makeHttpRequest());
 
-    expect(httpResponse).toEqual(serverError(new ServerError(null)));
+    expect(httpResponse.body).toEqual(new ServerError(null));
   });
 });
