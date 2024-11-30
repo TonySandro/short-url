@@ -1,8 +1,19 @@
 import { UserModel } from "../../../domain/models/user";
 import { AddUser, AddUserModel } from "../../../domain/usecases/add-user";
-import { MissingParamError } from "../../errors/missing-param-error";
-import { badRequest, success } from "../../helpers/http/http-helper";
+import { ServerError, MissingParamError } from "../../errors";
+import {
+  badRequest,
+  serverError,
+  success,
+} from "../../helpers/http/http-helper";
 import { UserRegistrationController } from "./user-registration-controller";
+
+const makeHttpRequest = () => ({
+  body: {
+    name: "any_name",
+    email: "any_email",
+  },
+});
 
 const makeAddUser = (): AddUser => {
   class AddUserStub implements AddUser {
@@ -64,7 +75,7 @@ describe("Signup Controller", () => {
       },
     };
 
-    const httpResponse = await sut.handle(httpRequest);
+    const httpResponse = await sut.handle(makeHttpRequest());
     expect(httpResponse).toEqual(badRequest(new MissingParamError("email")));
   });
 
@@ -72,17 +83,20 @@ describe("Signup Controller", () => {
     const { sut, addUserStub } = makeSut();
     const addSpy = jest.spyOn(addUserStub, "add");
 
-    const httpRequest = {
-      body: {
-        name: "any_name",
-        email: "any_email",
-      },
-    };
-
-    await sut.handle(httpRequest);
+    await sut.handle(makeHttpRequest());
     expect(addSpy).toHaveBeenCalledWith({
       name: "any_name",
       email: "any_email",
     });
+  });
+
+  test("Should return 500 if AddUser throws", async () => {
+    const { sut, addUserStub } = makeSut();
+    jest.spyOn(addUserStub, "add").mockImplementationOnce(async () => {
+      throw new Error();
+    });
+    const httpResponse = await sut.handle(makeHttpRequest());
+
+    expect(httpResponse).toEqual(serverError(new ServerError(null)));
   });
 });
