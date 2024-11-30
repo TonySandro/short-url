@@ -41,6 +41,18 @@ const makeSut = (): SutTypes => {
 };
 
 describe("DB AddUser Usecase", () => {
+  test("Should throw addUserRepository with correct throws", async () => {
+    const { sut, addUserRepositoryStub } = makeSut();
+    jest
+      .spyOn(addUserRepositoryStub, "add")
+      .mockReturnValueOnce(
+        new Promise((resolve, reject) => reject(new Error()))
+      );
+
+    const promise = sut.add(makeFakeUserData());
+    await expect(promise).rejects.toThrow();
+  });
+
   test("Should return an user on success", async () => {
     const { sut } = makeSut();
 
