@@ -1,11 +1,7 @@
 import { UserModel } from "../../../domain/models/user";
 import { AddUser, AddUserModel } from "../../../domain/usecases/add-user";
 import { ServerError, MissingParamError } from "../../errors";
-import {
-  badRequest,
-  serverError,
-  success,
-} from "../../helpers/http/http-helper";
+import { serverError, success } from "../../helpers/http/http-helper";
 import { UserRegistrationController } from "./user-registration-controller";
 
 const makeHttpRequest = () => ({
@@ -92,11 +88,11 @@ describe("User Registration Controller", () => {
 
   test("Should return 500 if AddUser throws", async () => {
     const { sut, addUserStub } = makeSut();
-    jest.spyOn(addUserStub, "add").mockImplementationOnce(async () => {
+    jest.spyOn(addUserStub, "add").mockImplementationOnce(() => {
       throw new Error();
     });
-    const httpResponse = await sut.handle(makeHttpRequest());
 
+    const httpResponse = await sut.handle(makeHttpRequest());
     expect(httpResponse.body).toEqual(new ServerError(null));
   });
 });

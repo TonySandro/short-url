@@ -11,17 +11,21 @@ export class UserRegistrationController implements Controller {
   constructor(private readonly addUser: AddUser) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const requiredFields = ["name", "email"];
+    try {
+      const requiredFields = ["name", "email"];
 
-    for (const field of requiredFields) {
-      if (!httpRequest.body[field]) {
-        return badRequest(new MissingParamError(field));
+      for (const field of requiredFields) {
+        if (!httpRequest.body[field]) {
+          return badRequest(new MissingParamError(field));
+        }
       }
+
+      const { name, email } = httpRequest.body;
+      const addUser = this.addUser.add({ name, email });
+
+      return success(httpRequest);
+    } catch (error) {
+      return serverError(error);
     }
-
-    const { name, email } = httpRequest.body;
-    this.addUser.add({ name, email });
-
-    return success(httpRequest);
   }
 }
