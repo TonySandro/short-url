@@ -41,6 +41,17 @@ const makeSut = (): SutTypes => {
 };
 
 describe("DB AddUser Usecase", () => {
+  test("Should call AddUserRepository with correct values", async () => {
+    const { sut, addUserRepositoryStub } = makeSut();
+    const addSpy = jest.spyOn(addUserRepositoryStub, "add");
+
+    await sut.add(makeFakeUserData());
+    expect(addSpy).toHaveBeenCalledWith({
+      name: "valid_name",
+      email: "valid_email",
+    });
+  });
+
   test("Should throw addUserRepository with correct throws", async () => {
     const { sut, addUserRepositoryStub } = makeSut();
     jest
