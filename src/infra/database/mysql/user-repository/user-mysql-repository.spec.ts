@@ -1,5 +1,4 @@
 import { UserMysqlRepository } from "./user-mysql-repository";
-import { UserModel } from "../../../../domain/models/user";
 import { MysqlHelper } from "../helper/mysql-helper";
 
 const makeSut = () => {
@@ -13,6 +12,10 @@ describe("User Mysql repository", () => {
 
   afterAll(async () => {
     await MysqlHelper.disconnect();
+  });
+
+  afterEach(async () => {
+    await MysqlHelper.deleteByEmail("any_email@email.com");
   });
 
   test("Should return user if success", async () => {

@@ -1,4 +1,5 @@
 import mysql from "mysql2/promise";
+import { AddUserModel } from "../../../../domain/usecases/add-user";
 
 export const MysqlHelper = {
   async connect() {
@@ -22,9 +23,27 @@ export const MysqlHelper = {
 
   async disconnect() {
     (await this.connection).end();
+    (await this.connection).end();
   },
 
   async get(database: string) {
-    return await this.connection.execute(`SELECT * FROM `, database);
+    return (await this.connection).execute(`SELECT * FROM `, database);
+  },
+
+  async add(user: AddUserModel) {
+    const query = "INSERT INTO users (name, email) VALUES (?, ?)";
+
+    return (await this.connection)
+      .execute(query, [user.name, user.email])
+      .then(() => {
+        return true;
+      });
+  },
+
+  async deleteByEmail(email: string) {
+    return (await this.connection).execute(
+      `DELETE FROM users WHERE email = ?`,
+      [email]
+    );
   },
 };
