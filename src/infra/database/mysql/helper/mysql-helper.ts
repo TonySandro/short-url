@@ -23,11 +23,6 @@ export const MysqlHelper = {
 
   async disconnect() {
     (await this.connection).end();
-    (await this.connection).end();
-  },
-
-  async get(database: string) {
-    return (await this.connection).execute(`SELECT * FROM `, database);
   },
 
   async add(user: AddUserModel) {
