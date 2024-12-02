@@ -1,6 +1,6 @@
 import { Controller } from "../../presentation/protocols";
 import { UserRegistrationController } from "../../presentation/controller/user-registration/user-registration-controller";
-import { DbAddUser } from "../../data/usecases/add-account/db-add-user";
+import { DbAddUser } from "../../data/usecases/add-user/db-add-user";
 import { UserMysqlRepository } from "../../infra/database/mysql/user-repository/user-mysql-repository";
 
 export const makeUserRegistrationController = (): Controller => {
