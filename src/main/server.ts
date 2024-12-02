@@ -1,10 +1,10 @@
-import app from "./config/app";
 import { AppDataSource } from "./config/typeorm.config";
 
 AppDataSource.initialize()
-  .then(() => {
-    app.listen(5050, () =>
-      console.log(`server running at http://localhost:5050`)
+  .then(async () => {
+    const app = (await import("./config/app")).default;
+    app.listen(5052, () =>
+      console.log(`server running at http://localhost:5052`)
     );
   })
-  .catch((error) => console.error("Database connection failed:", error));
+  .catch(console.error);

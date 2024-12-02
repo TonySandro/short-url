@@ -7,5 +7,6 @@ export const makeUserRegistrationController = (): Controller => {
   const addUserRepository = new UserMysqlRepository();
   const addUser = new DbAddUser(addUserRepository);
   const userController = new UserRegistrationController(addUser);
+
   return userController;
 };

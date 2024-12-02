@@ -21,9 +21,9 @@ export class UserRegistrationController implements Controller {
       }
 
       const { name, email } = httpRequest.body;
-      const addUser = this.addUser.add({ name, email });
+      await this.addUser.add({ name, email });
 
-      return success(httpRequest);
+      return success(httpRequest.body);
     } catch (error) {
       return serverError(error);
     }
