@@ -1,44 +1,21 @@
-import mysql from "mysql2/promise";
-import { AddUserModel } from "../../../../domain/usecases/add-user";
+import { AppDataSource } from "../../../../main/config/typeorm.config";
 
 export const MysqlHelper = {
   async connect() {
-    this.connection = mysql.createConnection({
-      host: "localhost",
-      port: 3307,
-      user: "root",
-      password: "admintsd",
-      database: "short-api",
-    });
-
-    (await this.connection)
-      .connect()
-      .then(() => {
-        console.log("Connect to MySql.");
-      })
-      .catch((error) => {
-        console.error("Error connecting to MySQL:", error);
-      });
+    await AppDataSource.initialize();
   },
 
   async disconnect() {
-    (await this.connection).end();
+    if (AppDataSource && AppDataSource.isInitialized) {
+      await AppDataSource.destroy();
+    }
   },
 
-  async add(user: AddUserModel) {
-    const query = "INSERT INTO users (name, email) VALUES (?, ?)";
-
-    return (await this.connection)
-      .execute(query, [user.name, user.email])
-      .then(() => {
-        return true;
-      });
-  },
-
-  async deleteByEmail(email: string) {
-    return (await this.connection).execute(
-      `DELETE FROM users WHERE email = ?`,
-      [email]
-    );
+  async clear() {
+    const entities = AppDataSource.entityMetadatas;
+    for (const entity of entities) {
+      const repository = AppDataSource.getRepository(entity.name);
+      await repository.clear();
+    }
   },
 };

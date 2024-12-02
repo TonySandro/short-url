@@ -15,7 +15,7 @@ describe("User Mysql repository", () => {
   });
 
   afterEach(async () => {
-    await MysqlHelper.deleteByEmail("any_email@email.com");
+    await MysqlHelper.clear();
   });
 
   test("Should return user if success", async () => {
