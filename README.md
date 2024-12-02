@@ -36,7 +36,7 @@ src/
 ├── infra/              # Implementações de banco de dados e outros serviços
 ├── main/               # Configurações principais (rotas, server, etc.)
 ├── presentation/       # Controladores, validações e protocolos
-└── tests/              # Testes unitários e de integração
+
 ```
 
 ---
@@ -74,6 +74,12 @@ cd url-shortener-api
 
 ```bash
 yarn install
+```
+
+ou
+
+```bash
+npm i
 ```
 
 ### 4. **Configure o Banco de Dados**
