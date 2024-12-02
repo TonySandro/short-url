@@ -12,7 +12,7 @@ describe("Api Routes", () => {
   });
 
   afterEach(async () => {
-    await MysqlHelper.clear();
+    await MysqlHelper.deleteUserByEmail("tonysduarte@gmail.com");
   });
 
   test("Should return an account on success", async () => {
@@ -21,6 +21,8 @@ describe("Api Routes", () => {
       .send({
         name: "Tony",
         email: "tonysduarte@gmail.com",
+        password: "valid_password",
+        passwordConfirmation: "valid_password",
       })
       .expect(200);
   });

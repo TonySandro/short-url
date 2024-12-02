@@ -12,7 +12,12 @@ export class UserRegistrationController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const requiredFields = ["name", "email"];
+      const requiredFields = [
+        "name",
+        "email",
+        "password",
+        "passwordConfirmation",
+      ];
 
       for (const field of requiredFields) {
         if (!httpRequest.body[field]) {
@@ -20,8 +25,13 @@ export class UserRegistrationController implements Controller {
         }
       }
 
-      const { name, email } = httpRequest.body;
-      this.addUser.add({ name, email });
+      const { name, email, password, passwordConfirmation } = httpRequest.body;
+
+      if (password !== passwordConfirmation) {
+        return badRequest(new MissingParamError("passwordConfirmation"));
+      }
+
+      await this.addUser.add({ name, email, password });
 
       return success(httpRequest.body);
     } catch (error) {

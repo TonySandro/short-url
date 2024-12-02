@@ -15,7 +15,7 @@ describe("User Mysql repository", () => {
   });
 
   afterEach(async () => {
-    await MysqlHelper.clear();
+    await MysqlHelper.deleteUserByEmail("any_email@email.com");
   });
 
   test("Should return user if success", async () => {
@@ -24,10 +24,12 @@ describe("User Mysql repository", () => {
     const account = await sut.add({
       name: "any_name",
       email: "any_email@email.com",
+      password: "any_password",
     });
 
     expect(account).toBeTruthy();
     expect(account.name).toBe("any_name");
     expect(account.email).toBe("any_email@email.com");
+    expect(account.password).toBeDefined();
   });
 });

@@ -18,4 +18,18 @@ export const MysqlHelper = {
       await repository.clear();
     }
   },
+
+  async deleteUserByEmail(email: string): Promise<void> {
+    const userRepository = AppDataSource.getRepository("users");
+    const user = await userRepository.findOne({ where: { email } });
+
+    await userRepository.remove(user);
+  },
+
+  async deleteByOriginalUrl(originalUrl: string): Promise<void> {
+    const repository = AppDataSource.getRepository("url_shorteners");
+    const response = await repository.findOne({ where: { originalUrl } });
+
+    await repository.remove(response);
+  },
 };

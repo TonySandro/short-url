@@ -1,3 +1,4 @@
+import { UserModel } from "../add-user/db-add-user-protocols";
 import { DbAddUrl } from "./db-add-url";
 import {
   AddUrlShortener,
@@ -23,6 +24,7 @@ const makeFakeUrlShortener = (): UrlShortenerModel => ({
   createdAt: new Date("2024-12-02 12:30:45"),
   updatedAt: new Date("2024-12-02 12:30:45"),
   deletedAt: null,
+  user: new UserModel(),
 });
 
 const makeFakeUrlShortenerData = (): AddUrlShortenerModel => ({

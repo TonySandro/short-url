@@ -15,7 +15,7 @@ describe("Url Shortener Mysql repository", () => {
   });
 
   afterEach(async () => {
-    await MysqlHelper.clear();
+    await MysqlHelper.deleteByOriginalUrl("any_originalUrl");
   });
 
   test("Should save short url if success", async () => {

@@ -18,11 +18,17 @@ const makeFakeUser = (): UserModel => ({
   id: "valid_id",
   name: "valid_name",
   email: "valid_email",
+  password: "",
+  urls: [],
+  createdAt: undefined,
+  updatedAt: undefined,
+  deletedAt: undefined,
 });
 
 const makeFakeUserData = (): AddUserModel => ({
   name: "valid_name",
   email: "valid_email",
+  password: "valid_password",
 });
 
 interface SutTypes {
@@ -49,6 +55,7 @@ describe("DB AddUser Usecase", () => {
     expect(addSpy).toHaveBeenCalledWith({
       name: "valid_name",
       email: "valid_email",
+      password: "valid_password",
     });
   });
 

@@ -26,6 +26,7 @@ const makeAddUrl = (): AddUrlShortener => {
         createdAt: new Date("2024-12-02 12:30:45"),
         updatedAt: new Date("2024-12-02 12:30:45"),
         deletedAt: null,
+        user: null,
       };
 
       return new Promise((resolve) => resolve(FakeUser));
