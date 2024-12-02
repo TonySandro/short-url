@@ -21,13 +21,13 @@ describe("Url Shortener Mysql repository", () => {
   test("Should save short url if success", async () => {
     const sut = makeSut();
 
-    const account = await sut.add({
+    const user = await sut.add({
       originalUrl: "any_originalUrl",
       shortUrl: "anyUrl",
     });
 
-    expect(account).toBeTruthy();
-    expect(account.originalUrl).toBe("any_originalUrl");
-    expect(account.shortUrl).toBe("anyUrl");
+    expect(user).toBeTruthy();
+    expect(user.originalUrl).toBe("any_originalUrl");
+    expect(user.shortUrl).toBe("anyUrl");
   });
 });

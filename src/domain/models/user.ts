@@ -20,6 +20,9 @@ export class UserModel {
   @Column({ unique: true })
   email: string;
 
+  @Column({ nullable: true })
+  accessToken: string;
+
   @Column()
   password: string;
 
