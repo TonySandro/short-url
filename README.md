@@ -1,4 +1,4 @@
-# URL Shortener API
+# SHORT URL API
 
 Um encurtador de URL desenvolvido em **Node.js** utilizando **TypeScript**, seguindo os princípios da **Arquitetura Limpa** para manter alta modularidade e organização. O projeto oferece funcionalidades para encurtar URLs, autenticar usuários e redirecionar URLs encurtadas para seus destinos originais.
 
