@@ -16,6 +16,11 @@ export const unauthorized = (): HttpResponse => ({
   body: new UnauthorizedError(),
 });
 
+export const redirect = (url: string) => ({
+  statusCode: 302,
+  headers: { Location: url },
+});
+
 export const success = (data: any): HttpResponse => ({
   statusCode: 200,
   body: data,
