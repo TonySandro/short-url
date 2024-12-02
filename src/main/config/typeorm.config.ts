@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import { UserModel } from "../../domain/models/user";
+import { UrlShortenerModel } from "../../domain/models/shortener";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -10,5 +11,5 @@ export const AppDataSource = new DataSource({
   database: "short-api",
   synchronize: true,
   logging: false,
-  entities: [UserModel],
+  entities: [UserModel, UrlShortenerModel],
 });
