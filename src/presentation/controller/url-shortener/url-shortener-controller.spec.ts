@@ -1,3 +1,8 @@
+import { UrlShortenerModel } from "../../../domain/models/shortener";
+import {
+  AddUrlShortener,
+  AddUrlShortenerModel,
+} from "../../../domain/usecases/add-url-shortener";
 import { MissingParamError } from "../../errors";
 import { badRequest } from "../../helpers/http/http-helper";
 import { NodeUrlShortener } from "../../helpers/shortener/node-url-shortener";
@@ -9,6 +14,26 @@ const makeFakeRequest = (): HttpRequest => ({
     originalUrl: "https://teddydigital.io/sobre/",
   },
 });
+
+const makeAddUrl = (): AddUrlShortener => {
+  class AddUrlStub implements AddUrlShortener {
+    async add(data: AddUrlShortenerModel): Promise<UrlShortenerModel> {
+      const FakeUser = {
+        id: "valid_id",
+        originalUrl: "any_originalUrl",
+        shortUrl: "anyUrl",
+        clickCount: 0,
+        createdAt: new Date("2024-12-02 12:30:45"),
+        updatedAt: new Date("2024-12-02 12:30:45"),
+        deletedAt: null,
+      };
+
+      return new Promise((resolve) => resolve(FakeUser));
+    }
+  }
+
+  return new AddUrlStub();
+};
 
 const makeNodeUrlShortener = (): NodeUrlShortener => {
   class NodeUrlShortenerStub implements NodeUrlShortener {
@@ -24,8 +49,9 @@ const makeNodeUrlShortener = (): NodeUrlShortener => {
 };
 
 const makeSut = () => {
+  const addUrlStub = makeAddUrl();
   const nodeUrlShortenerStub = makeNodeUrlShortener();
-  const sut = new UrlShortenerController(nodeUrlShortenerStub);
+  const sut = new UrlShortenerController(addUrlStub, nodeUrlShortenerStub);
 
   return {
     sut,

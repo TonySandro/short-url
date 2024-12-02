@@ -1,20 +1,27 @@
+import { AddUrlShortener } from "../../../domain/usecases/add-url-shortener";
 import { MissingParamError } from "../../errors";
 import { badRequest } from "../../helpers/http/http-helper";
 import { NodeUrlShortener } from "../../helpers/shortener/node-url-shortener";
 import { Controller, HttpRequest, HttpResponse } from "../../protocols";
 
 export class UrlShortenerController implements Controller {
-  constructor(private readonly nodeUrlShortener: NodeUrlShortener) {}
+  constructor(
+    private readonly addUrlShortener: AddUrlShortener,
+    private readonly nodeUrlShortener: NodeUrlShortener
+  ) {}
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    if (!httpRequest.body.originalUrl) {
-      return badRequest(new MissingParamError("originalUrl"));
-    }
+    const { originalUrl } = httpRequest.body;
 
-    const error = this.nodeUrlShortener.short(httpRequest.body.originalUrl);
-    if (error) {
-      return badRequest(error);
-    }
+    if (!originalUrl) return badRequest(new MissingParamError("originalUrl"));
+
+    const shortUrl = this.nodeUrlShortener.short(originalUrl);
+    if (shortUrl) return badRequest(shortUrl);
+
+    this.addUrlShortener.add({
+      originalUrl,
+      shortUrl,
+    });
 
     return new Promise((resolve) => resolve(null));
   }
