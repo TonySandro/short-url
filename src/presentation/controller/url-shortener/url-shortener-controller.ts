@@ -1,6 +1,7 @@
 import { AddUrlShortener } from "../../../domain/usecases/add-url-shortener";
+import env from "../../../main/config/env";
 import { MissingParamError } from "../../errors";
-import { badRequest } from "../../helpers/http/http-helper";
+import { badRequest, success } from "../../helpers/http/http-helper";
 import { NodeUrlShortener } from "../../helpers/shortener/node-url-shortener";
 import { Controller, HttpRequest, HttpResponse } from "../../protocols";
 
@@ -12,17 +13,15 @@ export class UrlShortenerController implements Controller {
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const { originalUrl } = httpRequest.body;
-
     if (!originalUrl) return badRequest(new MissingParamError("originalUrl"));
 
-    const shortUrl = this.nodeUrlShortener.short(originalUrl);
-    if (shortUrl) return badRequest(shortUrl);
-
-    this.addUrlShortener.add({
+    const shortUrl = await this.nodeUrlShortener.short(originalUrl);
+    const savedUrl = {
       originalUrl,
       shortUrl,
-    });
+    };
 
-    return new Promise((resolve) => resolve(null));
+    const newUrl = await this.addUrlShortener.add(savedUrl);
+    return success({ data: newUrl, newUrl: `${env.baseUrl}/${shortUrl}` });
   }
 }

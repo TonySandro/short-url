@@ -66,17 +66,4 @@ describe("Url Shortener Controller", () => {
 
     expect(httpResponse.body).toEqual(new MissingParamError("originalUrl"));
   });
-
-  test("Should return 400 if NodeUrlShortener returns an error", async () => {
-    const { sut, nodeUrlShortenerStub } = makeSut();
-    jest
-      .spyOn(nodeUrlShortenerStub, "short")
-      .mockReturnValueOnce(new MissingParamError("any_field"));
-
-    const httpResponse = await sut.handle(makeFakeRequest());
-
-    expect(httpResponse).toEqual(
-      badRequest(new MissingParamError("any_field"))
-    );
-  });
 });
