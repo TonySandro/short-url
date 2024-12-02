@@ -22,6 +22,7 @@ const makeAddUser = (): AddUser => {
         email: "valid_email",
         password: "valid_password",
         passwordConfirmation: "valid_password",
+        accessToken: "any_accessToken",
         urls: [],
         createdAt: new Date(),
         updatedAt: new Date(),

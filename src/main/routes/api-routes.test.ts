@@ -15,7 +15,7 @@ describe("Api Routes", () => {
     await MysqlHelper.deleteUserByEmail("tonysduarte@gmail.com");
   });
 
-  test("Should return an account on success", async () => {
+  test("Should return an user on success", async () => {
     await request(app)
       .post("/api/user")
       .send({
@@ -23,6 +23,7 @@ describe("Api Routes", () => {
         email: "tonysduarte@gmail.com",
         password: "valid_password",
         passwordConfirmation: "valid_password",
+        accessToken: "any_accessToken",
       })
       .expect(200);
   });

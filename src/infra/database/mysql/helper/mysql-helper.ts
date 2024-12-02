@@ -1,3 +1,4 @@
+import { Repository } from "typeorm";
 import { AppDataSource } from "../../../../main/config/typeorm.config";
 
 export const MysqlHelper = {
@@ -11,12 +12,11 @@ export const MysqlHelper = {
     }
   },
 
-  async clear() {
-    const entities = AppDataSource.entityMetadatas;
-    for (const entity of entities) {
-      const repository = AppDataSource.getRepository(entity.name);
-      await repository.clear();
+  async getRepository<T>(entity: new () => T): Promise<Repository<T>> {
+    if (!AppDataSource.isInitialized) {
+      await AppDataSource.initialize();
     }
+    return AppDataSource.getRepository(entity);
   },
 
   async deleteUserByEmail(email: string): Promise<void> {
