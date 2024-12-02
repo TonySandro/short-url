@@ -73,7 +73,7 @@ cd url-shortener-api
 ### 3. **Instale as Dependências**
 
 ```bash
-yarn install
+yarn
 ```
 
 ou
