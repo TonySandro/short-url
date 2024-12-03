@@ -82,29 +82,8 @@ ou
 npm i
 ```
 
-### 4. **Configure o Banco de Dados**
 
-Crie um banco de dados no MySQL e configure as credenciais no arquivo `.env`:
-
-```env
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=senha
-DB_NAME=url_shortener
-JWT_SECRET=sua_chave_secreta
-BASE_URL=http://localhost:3000
-```
-
-### 5. **Rodar as Migrações**
-
-Sincronize o banco de dados com o TypeORM:
-
-```bash
-yarn typeorm migration:run
-```
-
-### 6. **Inicie o Servidor**
+### 4. **Inicie o Servidor**
 
 ```bash
 yarn dev
