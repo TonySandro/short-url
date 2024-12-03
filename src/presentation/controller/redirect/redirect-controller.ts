@@ -8,7 +8,7 @@ export class RedirectController implements Controller {
   constructor(private readonly loadUrlByShort: LoadUrlByShort) {}
 
   async handle(httpRequest: Request): Promise<HttpResponse> {
-    const { shortUrl } = httpRequest.params;
+    const shortUrl = httpRequest.params.shortUrl;
 
     if (!shortUrl) return badRequest(new MissingParamError("shortUrl"));
 
