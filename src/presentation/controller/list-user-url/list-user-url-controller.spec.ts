@@ -2,6 +2,7 @@ import { UrlShortenerModel } from "../../../domain/models/shortener";
 import { UserModel } from "../../../domain/models/user";
 import { ListUrl } from "../../../domain/usecases/list-url";
 import { MissingParamError } from "../../errors";
+import { success } from "../../helpers/http/http-helper";
 import { ListUserUrlController } from "./list-user-url-controller";
 
 const makeListUrl = (): ListUrl => {
@@ -63,5 +64,13 @@ describe("List User Urls Controller", () => {
 
     await sut.handle(makeHttpRequest());
     expect(addSpy).toHaveBeenCalledWith(makeHttpRequest().body.id);
+  });
+
+  test("Should return 200 if success", async () => {
+    const { sut, listUrlStub } = makeSut();
+    const urls = await listUrlStub.list("valid_id");
+
+    const httpResponse = await sut.handle(makeHttpRequest());
+    expect(httpResponse).toEqual(success(urls));
   });
 });
