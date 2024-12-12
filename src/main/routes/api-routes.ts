@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { adaptRoute } from "../adapters/express/express-route-adapter";
-import { makeUserRegistrationController } from "../factories/user-registration-factory";
-import { makeUrlShortenerController } from "../factories/url-shortener-factory";
+import { makeUserRegistrationController } from "../factories/user-registration/user-registration-factory";
 import { makeLoginController } from "../factories/login/login-factory";
 import { makeRedirectController } from "../factories/load-url/load-url-factory";
+import { makeUrlShortenerController } from "../factories/url-shortener/url-shortener-factory";
 
 export default (router: Router): void => {
   router.post("/user", adaptRoute(makeUserRegistrationController()));
