@@ -7,7 +7,7 @@ export class DbListUrl implements ListUrl {
   constructor(private readonly urlRepository: ListUrlRepository) {}
 
   async list(id: string): Promise<UrlShortenerModel[]> {
-    return await this.urlRepository.find(
+    return await this.urlRepository.listByUserId(
       Object.assign({
         where: {
           user: { id },
