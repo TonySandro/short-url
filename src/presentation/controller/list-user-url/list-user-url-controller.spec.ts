@@ -1,6 +1,7 @@
 import { UrlShortenerModel } from "../../../domain/models/shortener";
 import { UserModel } from "../../../domain/models/user";
 import { ListUrl } from "../../../domain/usecases/list-url";
+import { IVerifyAccessToken } from "../../../domain/usecases/verify-access-token";
 import { MissingParamError } from "../../errors";
 import { success } from "../../helpers/http/http-helper";
 import { ListUserUrlController } from "./list-user-url-controller";
@@ -33,17 +34,30 @@ const makeListUrl = (): ListUrl => {
   return new ListUrlStub();
 };
 
+const makeVerifyAccessToken = () => {
+  class VerifyAccessTokenStub implements IVerifyAccessToken {
+    verify(token: string): boolean {
+      return true;
+    }
+  }
+
+  return new VerifyAccessTokenStub();
+};
+
 const makeHttpRequest = () => ({
+  headers: ["Authorization"],
   body: { id: "valid_id" },
 });
 
 const makeSut = () => {
+  const verifyAccessTokenStub = makeVerifyAccessToken();
   const listUrlStub = makeListUrl();
-  const sut = new ListUserUrlController(listUrlStub);
+  const sut = new ListUserUrlController(listUrlStub, verifyAccessTokenStub);
 
   return {
     sut,
     listUrlStub,
+    verifyAccessTokenStub,
   };
 };
 
@@ -51,6 +65,7 @@ describe("List User Urls Controller", () => {
   test("Should return 400 if no user id is provided", async () => {
     const { sut } = makeSut();
     const httpRequest = {
+      headers: ["Authorization"],
       body: {},
     };
 
