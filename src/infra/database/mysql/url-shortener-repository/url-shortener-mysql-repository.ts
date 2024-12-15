@@ -27,4 +27,14 @@ export class UrlShortenerMysqlRepository
     const repository = AppDataSource.getRepository(UrlShortenerModel);
     await repository.increment({ shortUrl }, "clickCount", 1);
   }
+
+  async listByUserId(userId: string): Promise<UrlShortenerModel[]> {
+    const repository = AppDataSource.getRepository(UrlShortenerModel);
+
+    return await repository.find({
+      where: { user: { id: userId } },
+      relations: ["user"],
+      order: { createdAt: "DESC" },
+    });
+  }
 }
